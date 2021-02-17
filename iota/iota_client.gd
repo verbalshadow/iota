@@ -10,7 +10,15 @@ var headers = [
 	"Accept: */*"
 	]
 
-func add(url, method, body = null, path = null):
+func add(uri):
+	var found = false
+	for item in pool:
+		if uri.meta.url_hash == item.meta.url_hash:
+			found = true
+	if !found:
+		pool.append(uri)
+
+func add_url(url, method, body = null, path = null):
 	var found = false
 	var test_hash = hash(url)
 	for item in pool:
@@ -18,7 +26,7 @@ func add(url, method, body = null, path = null):
 			found = true
 	if !found:
 		var addme = URI.new()
-		addme.fill(url, method, body, path)
+		addme.from_url(url, method, body, path)
 		pool.append(addme)
 
 func remove(url):
@@ -179,13 +187,23 @@ class URI:
 		"url_hash" : null,
 		"save_path" : null
 	}
+	
+	func fill(scheme, host, port, path = "", query = {}, method = HTTPClient.METHOD_GET, body = null, save_path = null):
+		meta.url_hash = hash(scheme+"://"+host+":"+port+path+query)
+		meta.method = method
+		meta.save_path = save_path
+		body = body
+		scheme = scheme
+		host = host
+		port = port
+		path = path
+		query = query
 
-	func fill(url, method, body = null, save_path = null):
+	func from_url(url, method = HTTPClient.METHOD_GET, body = null, save_path = null):
 		meta.url_hash = hash(url)
 		meta.method = method
 		meta.save_path = save_path
 		body = body
-		var uri = URI.new()
 
 		if url.begins_with("https://"):
 			scheme = "https"
