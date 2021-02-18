@@ -250,11 +250,11 @@ class URI:
 		# Assign remaining string to host
 		host = url
 
-		if port < 0:
-			match scheme:
-				"https": port = 443
-				"http": port = 80
-				_: pass
+#		if port < 0:
+#			match scheme:
+#				"https": port = 443
+#				"http": port = 80
+#				_: pass
 
 """
 Media type class to defined constants
