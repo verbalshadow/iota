@@ -130,8 +130,8 @@ func demand(uri):
 				rb = rb + chunk # Append to read buffer.
 	
 		# Done!
-		var headers = get_response_headers_as_dictionary()
-		if headers.has("Content-Type"):
+		var hdrs = get_response_headers_as_dictionary()
+		if hdrs.has("Content-Type"):
 			if MediaType.APPLICATION_JSON in headers["Content-Type"]:
 				save_text(uri, rb)
 			elif MediaType.APPLICATION_XML in headers["Content-Type"]:
@@ -188,22 +188,22 @@ class URI:
 		"save_path" : null
 	}
 	
-	func fill(scheme, host, port, path = "", query = {}, method = HTTPClient.METHOD_GET, body = null, save_path = null):
+	func fill(sch, hst, prt, pth = "", qry = {}, mthd = HTTPClient.METHOD_GET, bdy = null, sv_pth = null):
 		meta.url_hash = hash(scheme+"://"+host+":"+port+path+query)
-		meta.method = method
-		meta.save_path = save_path
-		body = body
-		scheme = scheme
-		host = host
-		port = port
-		path = path
-		query = query
+		meta.method = mthd
+		meta.save_path = sv_pth
+		body = bdy
+		scheme = sch
+		host = hst
+		port = prt
+		path = pth
+		query = qry
 
-	func from_url(url, method = HTTPClient.METHOD_GET, body = null, save_path = null):
+	func from_url(url, mthd = HTTPClient.METHOD_GET, bdy = null, sv_pth = null):
 		meta.url_hash = hash(url)
-		meta.method = method
-		meta.save_path = save_path
-		body = body
+		meta.method = mthd
+		meta.save_path = sv_pth
+		body = bdy
 
 		if url.begins_with("https://"):
 			scheme = "https"
