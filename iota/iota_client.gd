@@ -10,6 +10,9 @@ var headers = [
 	"Accept: */*"
 	]
 
+func _ready():
+	connect("next_complete", self, "next_complete")
+
 func add(uri):
 	var found = false
 	for item in pool:
@@ -54,7 +57,6 @@ func next():
 			print(get_status())
 		assert(get_status() == HTTPClient.STATUS_CONNECTED) # Could not connect
 		demand(item)
-		connect("next_complete", self, "next_complete")
 	
 	else:
 		close()
@@ -252,7 +254,7 @@ class URI:
 			match scheme:
 				"https": port = 443
 				"http": port = 80
-				_: port = 80
+				_: pass
 
 """
 Media type class to defined constants
