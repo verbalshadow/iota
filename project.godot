@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "IotaClient",
 "language": "GDScript",
 "path": "res://iota/iota_client.gd"
+}, {
+"base": "Resource",
+"class": "URI",
+"language": "GDScript",
+"path": "res://iota/uri.gd"
 } ]
 _global_script_class_icons={
 "GitAPI": "",
-"IotaClient": ""
+"IotaClient": "",
+"URI": ""
 }
 
 [application]
