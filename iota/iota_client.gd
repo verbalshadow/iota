@@ -154,6 +154,12 @@ func demand(uri : URI):
 #				save_image(uri, rb)
 
 func next_complete():
+	if not OS.has_feature("web"):
+		OS.delay_msec(500)
+	else:
+		# Synchronous HTTP requests are not supported on the web,
+		# so wait for the next main loop iteration.
+		yield(Engine.get_main_loop(), "idle_frame")
 	next()
 
 func save_image(uri : URI, content):
