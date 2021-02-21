@@ -10,7 +10,7 @@ var headers = [
 	"Accept: */*"
 	]
 
-func _ready():
+func _init():
 	connect("next_complete", self, "next_complete")
 
 func add(uri : URI):
@@ -134,23 +134,23 @@ func demand(uri : URI):
 		# Done!
 		var hdrs = get_response_headers_as_dictionary()
 		if hdrs.has("Content-Type"):
-			if MediaType.APPLICATION_JSON in headers["Content-Type"]:
+			if MediaType.APPLICATION_JSON in hdrs["Content-Type"]:
 				save_text(uri, rb)
-			elif MediaType.APPLICATION_XML in headers["Content-Type"]:
+			elif MediaType.APPLICATION_XML in hdrs["Content-Type"]:
 				save_text(uri, rb)
-			elif MediaType.TEXT_PLAIN in headers["Content-Type"]:
+			elif MediaType.TEXT_PLAIN in hdrs["Content-Type"]:
 				save_text(uri, rb)
-			elif MediaType.TEXT_HTML in headers["Content-Type"]:
+			elif MediaType.TEXT_HTML in hdrs["Content-Type"]:
 				save_text(uri, rb)
-			elif MediaType.IMAGE_PNG in headers["Content-Type"]:
+			elif MediaType.IMAGE_PNG in hdrs["Content-Type"]:
 				save_image(uri, rb)
-			elif MediaType.IMAGE_JPEG in headers["Content-Type"]:
+			elif MediaType.IMAGE_JPEG in hdrs["Content-Type"]:
 				save_image(uri, rb)
-			elif MediaType.IMAGE_WEBP in headers["Content-Type"]:
+			elif MediaType.IMAGE_WEBP in hdrs["Content-Type"]:
 				save_image(uri, rb)
-#			elif MediaType.IMAGE_WEBA in headers["Content-Type"]:
+#			elif MediaType.IMAGE_WEBA in hdrs["Content-Type"]:
 #				save_image(uri, rb)
-#			elif MediaType.VIDEO_WEBM in headers["Content-Type"]:
+#			elif MediaType.VIDEO_WEBM in hdrs["Content-Type"]:
 #				save_image(uri, rb)
 
 func next_complete():
