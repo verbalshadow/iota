@@ -40,7 +40,6 @@ func remove(url : String):
 
 func next():
 	var err = null
-	print(pool.size())
 	if pool.size() > 0:
 		var item = pool.pop_front()
 		if get_status() == HTTPClient.STATUS_DISCONNECTED:
@@ -54,7 +53,6 @@ func next():
 				poll()
 				print("Connecting...")
 				OS.delay_msec(500)
-			print(get_status())
 		assert(get_status() == HTTPClient.STATUS_CONNECTED) # Could not connect
 		demand(item)
 	
@@ -143,15 +141,20 @@ func demand(uri : URI):
 			elif MediaType.TEXT_HTML in hdrs["Content-Type"]:
 				save_text(uri, rb)
 			elif MediaType.IMAGE_PNG in hdrs["Content-Type"]:
-				save_image(uri, rb)
+				save_binary(uri, rb)
 			elif MediaType.IMAGE_JPEG in hdrs["Content-Type"]:
-				save_image(uri, rb)
+				save_binary(uri, rb)
 			elif MediaType.IMAGE_WEBP in hdrs["Content-Type"]:
-				save_image(uri, rb)
-#			elif MediaType.IMAGE_WEBA in hdrs["Content-Type"]:
-#				save_image(uri, rb)
-#			elif MediaType.VIDEO_WEBM in hdrs["Content-Type"]:
-#				save_image(uri, rb)
+				save_binary(uri, rb)
+			elif MediaType.IMAGE_WEBA in hdrs["Content-Type"]:
+				save_binary(uri, rb)
+			elif MediaType.VIDEO_WEBM in hdrs["Content-Type"]:
+				save_binary(uri, rb)
+			elif MediaType.BINARY_OCTET_STREAM in hdrs["Content-Type"]:
+				save_binary(uri, rb)
+			else:
+				print("I Don't know this %s: Pretending it is a binary." % hdrs["Content-Type"])
+				save_binary(uri, rb)
 
 func next_complete():
 	if not OS.has_feature("web"):
@@ -162,7 +165,7 @@ func next_complete():
 		yield(Engine.get_main_loop(), "idle_frame")
 	next()
 
-func save_image(uri : URI, content):
+func save_binary(uri : URI, content):
 	var file = File.new()
 	file.open(uri.meta.save_path, File.WRITE)
 	file.store_buffer(content)
@@ -193,3 +196,4 @@ class MediaType:
 	const IMAGE_WEBP = "image/webp"
 	const IMAGE_WEBA = "audio/webm"
 	const VIDEO_WEBM = "video/webm"
+	const BINARY_OCTET_STREAM = "binary/octet-stream"
