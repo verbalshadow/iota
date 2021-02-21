@@ -16,8 +16,8 @@ var meta = {
 	"save_path" : null
 }
 
-func fill(sch, hst, prt, pth = "", qry = {}, mthd = HTTPClient.METHOD_GET, bdy = null, sv_pth = null):
-	meta.url_hash = hash(scheme+"://"+host+":"+port+path+query)
+func fill(sch, hst, prt, pth = "", qry = "", mthd = HTTPClient.METHOD_GET, bdy = null, sv_pth = null):
+	meta.url_hash = hash(sch+"://"+hst+":"+str(prt)+pth+qry)
 	meta.method = mthd
 	meta.save_path = sv_pth
 	body = bdy
@@ -25,7 +25,19 @@ func fill(sch, hst, prt, pth = "", qry = {}, mthd = HTTPClient.METHOD_GET, bdy =
 	host = hst
 	port = prt
 	path = pth
-	query = qry
+	var query_pos = qry.find("?")
+	if query_pos >= 0:
+		# q: name=Bob&age=30
+		var q = qry.substr(query_pos + 1, len(qry))
+
+		# params: ["name=Bob", "age=30"]
+		var params = q.split("&")
+
+		# query: { "name": "Bob", "age": 30 }
+		for i in params:
+			var parts = i.split("=")
+			query[parts[0]] = parts[1]
+
 
 func from_url(url, mthd = HTTPClient.METHOD_GET, bdy = null, sv_pth = null):
 	meta.url_hash = hash(url)
