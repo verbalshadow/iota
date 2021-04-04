@@ -11,7 +11,7 @@ var headers = [
 	]
 
 func _init():
-	connect("next_complete", self, "next_complete")
+	connect("next_complete", self, "next", [], CONNECT_DEFERRED)
 
 func add(uri : URI):
 	var found = false
@@ -155,15 +155,6 @@ func demand(uri : URI):
 			else:
 				print("I Don't know this %s: Pretending it is a binary." % hdrs["Content-Type"])
 				save_binary(uri, rb)
-
-func next_complete():
-	if not OS.has_feature("web"):
-		OS.delay_msec(500)
-	else:
-		# Synchronous HTTP requests are not supported on the web,
-		# so wait for the next main loop iteration.
-		yield(Engine.get_main_loop(), "idle_frame")
-	next()
 
 func save_binary(uri : URI, content):
 	var file = File.new()
