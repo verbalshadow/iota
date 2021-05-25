@@ -6,7 +6,7 @@ signal pool_empty
 
 var pool = []
 var headers = [
-	"User-Agent: Iota/0.2.0 (Godot)",
+	"User-Agent: Iota/0.2.1 (Godot)",
 	"Accept: */*"
 	]
 
