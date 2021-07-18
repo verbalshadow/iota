@@ -11,4 +11,3 @@ func _ready():
 	http.add_url("https://api.godsunchained.com/v0/match?page=5&perPage=20&start_time=1609459200-1611203726", HTTPClient.METHOD_GET, null, "user://match5.json")
 	http.add_url("https://api.godsunchained.com/v0/match?page=6&perPage=20&start_time=1609459200-1611203726", HTTPClient.METHOD_GET, null, "user://match5.json")
 	http.next()
-	var temp = URI.new()
