@@ -64,7 +64,7 @@ func demand(uri : URI):
 	var err = null
 	match uri.meta.method:
 		HTTPClient.METHOD_GET: 
-			err = request(HTTPClient.METHOD_GET, uri.path, headers, query_string_from_dict(uri.query))
+			err = request(HTTPClient.METHOD_GET, uri.path + query_string_from_dict(uri.query), headers)
 		HTTPClient.METHOD_PUT: 
 			err = request(HTTPClient.METHOD_PUT, uri.path, headers, uri.body)
 		HTTPClient.METHOD_POST: 
